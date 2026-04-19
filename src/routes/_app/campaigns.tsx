@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { Send, TrendingUp, Users, Calendar, ArrowUpRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 
 export const Route = createFileRoute('/_app/campaigns')({
@@ -71,13 +71,12 @@ function CampaignsPage() {
               <div className="flex items-center gap-4">
                 <div className="text-right hidden md:block mr-4">
                   <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider font-sans">Status</p>
-                  <Badge 
-                    variant="outline" 
-                    className={`rounded-full mt-1 border-none ${
-                      campaign.status === 'Sent' ? 'bg-green-500/10 text-green-500' :
-                      campaign.status === 'Draft' ? 'bg-muted text-muted-foreground' :
-                      'bg-blue-500/10 text-blue-500'
-                    }`}
+                  <Badge
+                    variant="outline"
+                    className={`rounded-full mt-1 border-none ${campaign.status === 'Sent' ? 'bg-green-500/10 text-green-500' :
+                        campaign.status === 'Draft' ? 'bg-muted text-muted-foreground' :
+                          'bg-blue-500/10 text-blue-500'
+                      }`}
                   >
                     {campaign.status}
                   </Badge>

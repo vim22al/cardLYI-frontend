@@ -1,4 +1,4 @@
-import { createFileRoute, Link, Outlet, useLocation } from '@tanstack/react-router'
+import { createFileRoute, Link, Outlet, useLocation, useNavigate } from '@tanstack/react-router'
 import {
   LayoutDashboard,
   ScanLine,
@@ -15,6 +15,8 @@ import {
   PanelLeft,
 } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
+import { useEffect } from 'react'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 import {
   Sidebar,
@@ -97,6 +99,32 @@ const footerItems = [
 
 function AppLayout() {
   const location = useLocation()
+  const navigate = useNavigate()
+  const { user, isAuthenticated, logout, _hasHydrated } = useAuthStore()
+
+  useEffect(() => {
+    if (_hasHydrated && !isAuthenticated) {
+      navigate({ to: '/auth/login' })
+    }
+  }, [_hasHydrated, isAuthenticated, navigate])
+
+  if (!_hasHydrated) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-[#4fb8b2] border-t-transparent" />
+          <p className="text-sm font-medium text-muted-foreground animate-pulse">Loading CardLYI...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) return null
+
+  const handleLogout = () => {
+    logout()
+    navigate({ to: '/auth/login' })
+  }
 
   return (
     <SidebarProvider>
@@ -184,12 +212,12 @@ function AppLayout() {
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-accent transition-colors mt-4 text-left group">
                   <Avatar className="h-8 w-8 border-2 border-[#4fb8b2]/20">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>JD</AvatarFallback>
+                    <AvatarImage src={user?.avatar || "https://github.com/shadcn.png"} />
+                    <AvatarFallback>{user?.name?.charAt(0) || 'U'}</AvatarFallback>
                   </Avatar>
                   <div className="flex-1 overflow-hidden">
-                    <p className="text-sm font-bold text-foreground truncate font-sans">John Doe</p>
-                    <p className="text-xs text-muted-foreground truncate font-sans">john@example.com</p>
+                    <p className="text-sm font-bold text-foreground truncate font-sans">{user?.name || 'User'}</p>
+                    <p className="text-xs text-muted-foreground truncate font-sans">{user?.email || 'email@example.com'}</p>
                   </div>
                 </button>
               </DropdownMenuTrigger>
@@ -205,7 +233,7 @@ function AppLayout() {
                   <span>Settings</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="gap-2 cursor-pointer text-red-500 hover:text-red-600">
+                <DropdownMenuItem onClick={handleLogout} className="gap-2 cursor-pointer text-red-500 hover:text-red-600">
                   <LogOut className="h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
