@@ -56,7 +56,7 @@ function ContactDetailsPage() {
   if (isError || !contact) return <ErrorView />
 
   return (
-    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
+    <div className="max-w-6xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 px-4 md:px-6">
       {/* Header Navigation */}
       <div className="flex items-center justify-between">
         <Button 
