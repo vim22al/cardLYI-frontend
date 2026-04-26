@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
+import { Route as AuthResetPasswordRouteImport } from './routes/auth/reset-password'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as AuthForgotPasswordRouteImport } from './routes/auth/forgot-password'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppScanRouteImport } from './routes/_app/scan'
 import { Route as AppPlanRouteImport } from './routes/_app/plan'
@@ -41,9 +43,19 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
   path: '/auth/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
+  id: '/auth/reset-password',
+  path: '/auth/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/auth/forgot-password',
+  path: '/auth/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
@@ -119,7 +131,9 @@ export interface FileRoutesByFullPath {
   '/plan': typeof AppPlanRoute
   '/scan': typeof AppScanRoute
   '/settings': typeof AppSettingsRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
@@ -136,7 +150,9 @@ export interface FileRoutesByTo {
   '/plan': typeof AppPlanRoute
   '/scan': typeof AppScanRoute
   '/settings': typeof AppSettingsRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
@@ -156,7 +172,9 @@ export interface FileRoutesById {
   '/_app/plan': typeof AppPlanRoute
   '/_app/scan': typeof AppScanRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/auth/forgot-password': typeof AuthForgotPasswordRoute
   '/auth/login': typeof AuthLoginRoute
+  '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
   '/_app/campaigns/create': typeof AppCampaignsCreateRoute
   '/_app/contacts/$contactId': typeof AppContactsContactIdRoute
@@ -176,7 +194,9 @@ export interface FileRouteTypes {
     | '/plan'
     | '/scan'
     | '/settings'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/campaigns/create'
     | '/contacts/$contactId'
@@ -193,7 +213,9 @@ export interface FileRouteTypes {
     | '/plan'
     | '/scan'
     | '/settings'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/campaigns/create'
     | '/contacts/$contactId'
@@ -212,7 +234,9 @@ export interface FileRouteTypes {
     | '/_app/plan'
     | '/_app/scan'
     | '/_app/settings'
+    | '/auth/forgot-password'
     | '/auth/login'
+    | '/auth/reset-password'
     | '/auth/signup'
     | '/_app/campaigns/create'
     | '/_app/contacts/$contactId'
@@ -227,7 +251,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthResetPasswordRoute: typeof AuthResetPasswordRoute
   AuthSignupRoute: typeof AuthSignupRoute
 }
 
@@ -254,11 +280,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/reset-password': {
+      id: '/auth/reset-password'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof AuthResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth/login': {
       id: '/auth/login'
       path: '/auth/login'
       fullPath: '/auth/login'
       preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/forgot-password': {
+      id: '/auth/forgot-password'
+      path: '/auth/forgot-password'
+      fullPath: '/auth/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/settings': {
@@ -402,7 +442,9 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthResetPasswordRoute: AuthResetPasswordRoute,
   AuthSignupRoute: AuthSignupRoute,
 }
 export const routeTree = rootRouteImport

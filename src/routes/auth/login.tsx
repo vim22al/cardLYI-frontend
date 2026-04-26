@@ -180,7 +180,7 @@ function RouteComponent() {
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password" className="font-sans text-foreground/80">Password</Label>
-                    <Link to="/auth/login" className="text-xs text-[#4fb8b2] hover:text-[#328f97] font-sans font-medium">Forgot password?</Link>
+                    <Button variant="link" onClick={() => navigate({ to: '/auth/forgot-password' })} className="text-xs text-[#4fb8b2] hover:text-[#328f97] font-sans font-medium">Forgot password?</Button>
                   </div>
                   <Input
                     id="password"
