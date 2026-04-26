@@ -32,7 +32,8 @@ import {
   ExternalLink,
   MoreHorizontal,
   Trash2,
-  Eye
+  Eye,
+  Download
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -91,6 +92,36 @@ function ContactsPage() {
     navigate({ to: '/contacts/$contactId', params: { contactId } })
   }
 
+  const handleExportCSV = () => {
+    if (!contacts.length) return
+
+    const headers = ['Name', 'Title', 'Company', 'Email', 'Phone', 'Status', 'Created At']
+    const csvContent = contacts.map((contact: any) => {
+      return [
+        contact.name || '',
+        contact.title || '',
+        contact.company || '',
+        contact.email || '',
+        contact.phone || '',
+        contact.status || '',
+        contact.createdAt ? new Date(contact.createdAt).toISOString() : ''
+      ].map(field => `"${String(field).replace(/"/g, '""')}"`).join(',')
+    })
+
+    csvContent.unshift(headers.join(','))
+    const csvString = csvContent.join('\n')
+
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', `contacts_export_${new Date().toISOString().split('T')[0]}.csv`)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
   if (isError) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center space-y-4">
@@ -107,11 +138,17 @@ function ContactsPage() {
           <h1 className="text-3xl font-black tracking-tight text-foreground font-sans uppercase">Contacts</h1>
           <p className="text-muted-foreground font-sans text-sm">Manage and organize your network with powerful search and filters.</p>
         </div>
-        <Link to="/scan">
-          <Button className="bg-[#4fb8b2] hover:bg-lagoon-deep text-white font-bold rounded-xl shadow-lg transition-all active:scale-95">
-            + New Contact
+        <div className="flex items-center gap-4">
+          <Button onClick={handleExportCSV} variant="outline" className="font-bold rounded-xl shadow-sm transition-all active:scale-95">
+            <Download className="h-4 w-4 mr-2" />
+            Export CSV
           </Button>
-        </Link>
+          <Link to="/scan">
+            <Button className="bg-[#4fb8b2] hover:bg-lagoon-deep text-white font-bold rounded-xl shadow-lg transition-all active:scale-95">
+              + New Contact
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between bg-card/50 p-4 rounded-3xl border border-border backdrop-blur-xl">

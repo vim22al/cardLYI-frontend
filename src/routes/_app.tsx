@@ -249,7 +249,7 @@ function AppLayout() {
                 <PanelLeft className="h-5 w-5 text-foreground" />
               </SidebarTrigger>
               <div className="relative hidden md:flex items-center">
-                <Search className="absolute left-3 h-4 w-4 text-muted-foreground" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input 
                   placeholder="Search contacts..." 
                   className="pl-10 h-9 w-[300px] bg-accent/50 border-none focus-visible:ring-[#4fb8b2] transition-all font-sans"

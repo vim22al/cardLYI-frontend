@@ -13,17 +13,19 @@ import { Route as AppRouteImport } from './routes/_app'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
-import { Route as AppTemplatesRouteImport } from './routes/_app/templates'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppScanRouteImport } from './routes/_app/scan'
 import { Route as AppPlanRouteImport } from './routes/_app/plan'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppContactsRouteImport } from './routes/_app/contacts'
-import { Route as AppCampaignsRouteImport } from './routes/_app/campaigns'
+import { Route as AppTemplatesIndexRouteImport } from './routes/_app/templates/index'
 import { Route as AppContactsIndexRouteImport } from './routes/_app/contacts/index'
-import { Route as AppTemplatesCreateRouteImport } from './routes/_app/templates.create'
+import { Route as AppCampaignsIndexRouteImport } from './routes/_app/campaigns/index'
+import { Route as AppTemplatesCreateRouteImport } from './routes/_app/templates/create'
+import { Route as AppTemplatesTemplateIdRouteImport } from './routes/_app/templates/$templateId'
 import { Route as AppExtractedContactIdRouteImport } from './routes/_app/extracted.$contactId'
 import { Route as AppContactsContactIdRouteImport } from './routes/_app/contacts/$contactId'
+import { Route as AppCampaignsCreateRouteImport } from './routes/_app/campaigns/create'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -43,11 +45,6 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AppTemplatesRoute = AppTemplatesRouteImport.update({
-  id: '/templates',
-  path: '/templates',
-  getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
@@ -74,9 +71,9 @@ const AppContactsRoute = AppContactsRouteImport.update({
   path: '/contacts',
   getParentRoute: () => AppRoute,
 } as any)
-const AppCampaignsRoute = AppCampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
+const AppTemplatesIndexRoute = AppTemplatesIndexRouteImport.update({
+  id: '/templates/',
+  path: '/templates/',
   getParentRoute: () => AppRoute,
 } as any)
 const AppContactsIndexRoute = AppContactsIndexRouteImport.update({
@@ -84,10 +81,20 @@ const AppContactsIndexRoute = AppContactsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppContactsRoute,
 } as any)
+const AppCampaignsIndexRoute = AppCampaignsIndexRouteImport.update({
+  id: '/campaigns/',
+  path: '/campaigns/',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppTemplatesCreateRoute = AppTemplatesCreateRouteImport.update({
-  id: '/create',
-  path: '/create',
-  getParentRoute: () => AppTemplatesRoute,
+  id: '/templates/create',
+  path: '/templates/create',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppTemplatesTemplateIdRoute = AppTemplatesTemplateIdRouteImport.update({
+  id: '/templates/$templateId',
+  path: '/templates/$templateId',
+  getParentRoute: () => AppRoute,
 } as any)
 const AppExtractedContactIdRoute = AppExtractedContactIdRouteImport.update({
   id: '/extracted/$contactId',
@@ -99,105 +106,122 @@ const AppContactsContactIdRoute = AppContactsContactIdRouteImport.update({
   path: '/$contactId',
   getParentRoute: () => AppContactsRoute,
 } as any)
+const AppCampaignsCreateRoute = AppCampaignsCreateRouteImport.update({
+  id: '/campaigns/create',
+  path: '/campaigns/create',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/campaigns': typeof AppCampaignsRoute
   '/contacts': typeof AppContactsRouteWithChildren
   '/dashboard': typeof AppDashboardRoute
   '/plan': typeof AppPlanRoute
   '/scan': typeof AppScanRoute
   '/settings': typeof AppSettingsRoute
-  '/templates': typeof AppTemplatesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
   '/extracted/$contactId': typeof AppExtractedContactIdRoute
+  '/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/templates/create': typeof AppTemplatesCreateRoute
+  '/campaigns/': typeof AppCampaignsIndexRoute
   '/contacts/': typeof AppContactsIndexRoute
+  '/templates/': typeof AppTemplatesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/campaigns': typeof AppCampaignsRoute
   '/dashboard': typeof AppDashboardRoute
   '/plan': typeof AppPlanRoute
   '/scan': typeof AppScanRoute
   '/settings': typeof AppSettingsRoute
-  '/templates': typeof AppTemplatesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
   '/extracted/$contactId': typeof AppExtractedContactIdRoute
+  '/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/templates/create': typeof AppTemplatesCreateRoute
+  '/campaigns': typeof AppCampaignsIndexRoute
   '/contacts': typeof AppContactsIndexRoute
+  '/templates': typeof AppTemplatesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_app': typeof AppRouteWithChildren
-  '/_app/campaigns': typeof AppCampaignsRoute
   '/_app/contacts': typeof AppContactsRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/plan': typeof AppPlanRoute
   '/_app/scan': typeof AppScanRoute
   '/_app/settings': typeof AppSettingsRoute
-  '/_app/templates': typeof AppTemplatesRouteWithChildren
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/_app/campaigns/create': typeof AppCampaignsCreateRoute
   '/_app/contacts/$contactId': typeof AppContactsContactIdRoute
   '/_app/extracted/$contactId': typeof AppExtractedContactIdRoute
+  '/_app/templates/$templateId': typeof AppTemplatesTemplateIdRoute
   '/_app/templates/create': typeof AppTemplatesCreateRoute
+  '/_app/campaigns/': typeof AppCampaignsIndexRoute
   '/_app/contacts/': typeof AppContactsIndexRoute
+  '/_app/templates/': typeof AppTemplatesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/campaigns'
     | '/contacts'
     | '/dashboard'
     | '/plan'
     | '/scan'
     | '/settings'
-    | '/templates'
     | '/auth/login'
     | '/auth/signup'
+    | '/campaigns/create'
     | '/contacts/$contactId'
     | '/extracted/$contactId'
+    | '/templates/$templateId'
     | '/templates/create'
+    | '/campaigns/'
     | '/contacts/'
+    | '/templates/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/campaigns'
     | '/dashboard'
     | '/plan'
     | '/scan'
     | '/settings'
-    | '/templates'
     | '/auth/login'
     | '/auth/signup'
+    | '/campaigns/create'
     | '/contacts/$contactId'
     | '/extracted/$contactId'
+    | '/templates/$templateId'
     | '/templates/create'
+    | '/campaigns'
     | '/contacts'
+    | '/templates'
   id:
     | '__root__'
     | '/'
     | '/_app'
-    | '/_app/campaigns'
     | '/_app/contacts'
     | '/_app/dashboard'
     | '/_app/plan'
     | '/_app/scan'
     | '/_app/settings'
-    | '/_app/templates'
     | '/auth/login'
     | '/auth/signup'
+    | '/_app/campaigns/create'
     | '/_app/contacts/$contactId'
     | '/_app/extracted/$contactId'
+    | '/_app/templates/$templateId'
     | '/_app/templates/create'
+    | '/_app/campaigns/'
     | '/_app/contacts/'
+    | '/_app/templates/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -237,13 +261,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_app/templates': {
-      id: '/_app/templates'
-      path: '/templates'
-      fullPath: '/templates'
-      preLoaderRoute: typeof AppTemplatesRouteImport
-      parentRoute: typeof AppRoute
-    }
     '/_app/settings': {
       id: '/_app/settings'
       path: '/settings'
@@ -279,11 +296,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContactsRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/campaigns': {
-      id: '/_app/campaigns'
-      path: '/campaigns'
-      fullPath: '/campaigns'
-      preLoaderRoute: typeof AppCampaignsRouteImport
+    '/_app/templates/': {
+      id: '/_app/templates/'
+      path: '/templates'
+      fullPath: '/templates/'
+      preLoaderRoute: typeof AppTemplatesIndexRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/contacts/': {
@@ -293,12 +310,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppContactsIndexRouteImport
       parentRoute: typeof AppContactsRoute
     }
+    '/_app/campaigns/': {
+      id: '/_app/campaigns/'
+      path: '/campaigns'
+      fullPath: '/campaigns/'
+      preLoaderRoute: typeof AppCampaignsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/templates/create': {
       id: '/_app/templates/create'
-      path: '/create'
+      path: '/templates/create'
       fullPath: '/templates/create'
       preLoaderRoute: typeof AppTemplatesCreateRouteImport
-      parentRoute: typeof AppTemplatesRoute
+      parentRoute: typeof AppRoute
+    }
+    '/_app/templates/$templateId': {
+      id: '/_app/templates/$templateId'
+      path: '/templates/$templateId'
+      fullPath: '/templates/$templateId'
+      preLoaderRoute: typeof AppTemplatesTemplateIdRouteImport
+      parentRoute: typeof AppRoute
     }
     '/_app/extracted/$contactId': {
       id: '/_app/extracted/$contactId'
@@ -313,6 +344,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/contacts/$contactId'
       preLoaderRoute: typeof AppContactsContactIdRouteImport
       parentRoute: typeof AppContactsRoute
+    }
+    '/_app/campaigns/create': {
+      id: '/_app/campaigns/create'
+      path: '/campaigns/create'
+      fullPath: '/campaigns/create'
+      preLoaderRoute: typeof AppCampaignsCreateRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
@@ -331,38 +369,32 @@ const AppContactsRouteWithChildren = AppContactsRoute._addFileChildren(
   AppContactsRouteChildren,
 )
 
-interface AppTemplatesRouteChildren {
-  AppTemplatesCreateRoute: typeof AppTemplatesCreateRoute
-}
-
-const AppTemplatesRouteChildren: AppTemplatesRouteChildren = {
-  AppTemplatesCreateRoute: AppTemplatesCreateRoute,
-}
-
-const AppTemplatesRouteWithChildren = AppTemplatesRoute._addFileChildren(
-  AppTemplatesRouteChildren,
-)
-
 interface AppRouteChildren {
-  AppCampaignsRoute: typeof AppCampaignsRoute
   AppContactsRoute: typeof AppContactsRouteWithChildren
   AppDashboardRoute: typeof AppDashboardRoute
   AppPlanRoute: typeof AppPlanRoute
   AppScanRoute: typeof AppScanRoute
   AppSettingsRoute: typeof AppSettingsRoute
-  AppTemplatesRoute: typeof AppTemplatesRouteWithChildren
+  AppCampaignsCreateRoute: typeof AppCampaignsCreateRoute
   AppExtractedContactIdRoute: typeof AppExtractedContactIdRoute
+  AppTemplatesTemplateIdRoute: typeof AppTemplatesTemplateIdRoute
+  AppTemplatesCreateRoute: typeof AppTemplatesCreateRoute
+  AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
+  AppTemplatesIndexRoute: typeof AppTemplatesIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppCampaignsRoute: AppCampaignsRoute,
   AppContactsRoute: AppContactsRouteWithChildren,
   AppDashboardRoute: AppDashboardRoute,
   AppPlanRoute: AppPlanRoute,
   AppScanRoute: AppScanRoute,
   AppSettingsRoute: AppSettingsRoute,
-  AppTemplatesRoute: AppTemplatesRouteWithChildren,
+  AppCampaignsCreateRoute: AppCampaignsCreateRoute,
   AppExtractedContactIdRoute: AppExtractedContactIdRoute,
+  AppTemplatesTemplateIdRoute: AppTemplatesTemplateIdRoute,
+  AppTemplatesCreateRoute: AppTemplatesCreateRoute,
+  AppCampaignsIndexRoute: AppCampaignsIndexRoute,
+  AppTemplatesIndexRoute: AppTemplatesIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

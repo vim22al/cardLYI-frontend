@@ -71,3 +71,18 @@ export const useScanCardMutation = () => {
     },
   });
 };
+
+export const useSendDefaultEmailMutation = () => {
+  const { token } = useAuthStore();
+  
+  return useMutation({
+    mutationFn: (id: string) => contactsApi.sendDefaultEmail(id, token!),
+    onSuccess: (data) => {
+      toast.success(data.message || 'Email queued successfully!');
+    },
+    onError: (error: any) => {
+      const message = error.response?.data?.error || error.message || 'Failed to send email';
+      toast.error(message);
+    },
+  });
+};

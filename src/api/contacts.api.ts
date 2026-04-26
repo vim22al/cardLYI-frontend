@@ -1,4 +1,21 @@
 import { fetcher } from './client';
+ 
+export interface Contact {
+  _id: string;
+  userId: string;
+  name?: string;
+  title?: string;
+  company?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  website?: string;
+  rawImage?: string;
+  status: 'processing' | 'completed' | 'failed';
+  additionalDetails?: Record<string, any>;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export const contactsApi = {
   getContacts: async (token: string, params: Record<string, string> = {}) => {
@@ -46,6 +63,15 @@ export const contactsApi = {
         'Authorization': `Bearer ${token}`,
       },
       body: formData,
+    });
+  },
+  
+  sendDefaultEmail: async (id: string, token: string) => {
+    return fetcher<any>(`/contacts/${id}/send-default-email`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
     });
   },
 };

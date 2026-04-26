@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useSingleContactQuery, useUpdateContactMutation } from '@/hooks/useContactHooks'
+import { useSingleContactQuery, useUpdateContactMutation, useSendDefaultEmailMutation } from '@/hooks/useContactHooks'
 import { debounce } from '@/lib/utils'
 import {
   Loader2,
@@ -53,6 +53,16 @@ function ExtractedPage() {
   })
 
   const updateMutation = useUpdateContactMutation(contactId)
+  const sendEmailMutation = useSendDefaultEmailMutation()
+
+  const handleSendDefaultEmail = async () => {
+    try {
+      await sendEmailMutation.mutateAsync(contactId)
+      window.history.back()
+    } catch (error) {
+      // Error handled by mutation toast
+    }
+  }
 
   useEffect(() => {
     if (contact && isInitialLoad.current) {
@@ -267,9 +277,16 @@ function ExtractedPage() {
             </CardContent>
           </Card>
 
-          <div className="flex gap-4">
+          <div className="flex flex-col sm:flex-row gap-4">
             <Button variant="outline" className="flex-1 h-12 rounded-2xl font-bold font-sans" onClick={() => window.history.back()}>Back</Button>
-            <Button className="flex-1 h-12 rounded-2xl bg-[#4fb8b2] hover:bg-lagoon-deep text-white font-bold font-sans shadow-lg shadow-[#4fb8b2]/20" onClick={() => window.history.back()}>Finish</Button>
+            <Button 
+              className="flex-[2] h-12 rounded-2xl bg-[#4fb8b2] hover:bg-lagoon-deep text-white font-bold font-sans shadow-lg shadow-[#4fb8b2]/20 transition-all active:scale-[0.98]" 
+              onClick={handleSendDefaultEmail}
+              disabled={isProcessing || sendEmailMutation.isPending || !formData.email}
+            >
+              {sendEmailMutation.isPending ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Mail className="h-4 w-4 mr-2" />}
+              Finish and Send Email
+            </Button>
           </div>
         </div>
       </div>
