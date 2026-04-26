@@ -32,3 +32,18 @@ export const useSignupMutation = () => {
     },
   });
 };
+
+export const useGoogleLoginMutation = () => {
+  const setAuth = useAuthStore((s) => s.setAuth);
+  
+  return useMutation({
+    mutationFn: (data: { idToken?: string; accessToken?: string }) => authApi.googleLogin(data),
+    onSuccess: (resData) => {
+      setAuth(resData.user, resData.token);
+      toast.success('Signed in with Google!');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Google login failed');
+    },
+  });
+};

@@ -3,6 +3,7 @@ import { Scripts, createRootRoute } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -15,6 +16,8 @@ const queryClient = new QueryClient({
     queries: { staleTime: 60 * 1000 },
   },
 })
+
+const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_OAUTH_CLIENT_ID
 
 export const Route = createRootRoute({
   head: () => ({
@@ -55,16 +58,18 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning className="min-h-screen bg-background text-foreground transition-colors duration-300">
-        <QueryClientProvider client={queryClient}>
-          <ThemeProvider defaultTheme="light" storageKey="cardlyi-ui-theme">
-            <TooltipProvider>
-              <AuthBootstrap>
-                {children}
-              </AuthBootstrap>
-              <Toaster richColors position="bottom-right" />
-            </TooltipProvider>
-          </ThemeProvider>
-        </QueryClientProvider>
+        <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+          <QueryClientProvider client={queryClient}>
+            <ThemeProvider defaultTheme="light" storageKey="cardlyi-ui-theme">
+              <TooltipProvider>
+                <AuthBootstrap>
+                  {children}
+                </AuthBootstrap>
+                <Toaster richColors position="bottom-right" />
+              </TooltipProvider>
+            </ThemeProvider>
+          </QueryClientProvider>
+        </GoogleOAuthProvider>
 
         <TanStackDevtools
           config={{ position: 'bottom-right' }}

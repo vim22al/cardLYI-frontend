@@ -14,4 +14,11 @@ export const authApi = {
       body: JSON.stringify(data),
     });
   },
+
+  googleLogin: async (data: { idToken?: string; accessToken?: string }) => {
+    return fetcher<any>('/auth/google', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  },
 };
