@@ -15,9 +15,9 @@ function CreateTemplatePage() {
   const navigate = useNavigate()
   const createMutation = useCreateTemplateMutation()
 
-  const handleSave = async (values: TemplateFormValues) => {
+  const handleSave = async (data: FormData) => {
     try {
-      await createMutation.mutateAsync(values)
+      await createMutation.mutateAsync(data)
       toast.success('Template created successfully!')
       navigate({ to: '/templates' })
     } catch (error) {

@@ -28,6 +28,7 @@ import { Route as AppTemplatesTemplateIdRouteImport } from './routes/_app/templa
 import { Route as AppExtractedContactIdRouteImport } from './routes/_app/extracted.$contactId'
 import { Route as AppContactsContactIdRouteImport } from './routes/_app/contacts/$contactId'
 import { Route as AppCampaignsCreateRouteImport } from './routes/_app/campaigns/create'
+import { Route as AppCampaignsCampaignIdRouteImport } from './routes/_app/campaigns/$campaignId'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -123,6 +124,11 @@ const AppCampaignsCreateRoute = AppCampaignsCreateRouteImport.update({
   path: '/campaigns/create',
   getParentRoute: () => AppRoute,
 } as any)
+const AppCampaignsCampaignIdRoute = AppCampaignsCampaignIdRouteImport.update({
+  id: '/campaigns/$campaignId',
+  path: '/campaigns/$campaignId',
+  getParentRoute: () => AppRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/campaigns/$campaignId': typeof AppCampaignsCampaignIdRoute
   '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
   '/extracted/$contactId': typeof AppExtractedContactIdRoute
@@ -154,6 +161,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/campaigns/$campaignId': typeof AppCampaignsCampaignIdRoute
   '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
   '/extracted/$contactId': typeof AppExtractedContactIdRoute
@@ -176,6 +184,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/_app/campaigns/$campaignId': typeof AppCampaignsCampaignIdRoute
   '/_app/campaigns/create': typeof AppCampaignsCreateRoute
   '/_app/contacts/$contactId': typeof AppContactsContactIdRoute
   '/_app/extracted/$contactId': typeof AppExtractedContactIdRoute
@@ -198,6 +207,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/campaigns/$campaignId'
     | '/campaigns/create'
     | '/contacts/$contactId'
     | '/extracted/$contactId'
@@ -217,6 +227,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/campaigns/$campaignId'
     | '/campaigns/create'
     | '/contacts/$contactId'
     | '/extracted/$contactId'
@@ -238,6 +249,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/_app/campaigns/$campaignId'
     | '/_app/campaigns/create'
     | '/_app/contacts/$contactId'
     | '/_app/extracted/$contactId'
@@ -392,6 +404,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCampaignsCreateRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/campaigns/$campaignId': {
+      id: '/_app/campaigns/$campaignId'
+      path: '/campaigns/$campaignId'
+      fullPath: '/campaigns/$campaignId'
+      preLoaderRoute: typeof AppCampaignsCampaignIdRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -415,6 +434,7 @@ interface AppRouteChildren {
   AppPlanRoute: typeof AppPlanRoute
   AppScanRoute: typeof AppScanRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppCampaignsCampaignIdRoute: typeof AppCampaignsCampaignIdRoute
   AppCampaignsCreateRoute: typeof AppCampaignsCreateRoute
   AppExtractedContactIdRoute: typeof AppExtractedContactIdRoute
   AppTemplatesTemplateIdRoute: typeof AppTemplatesTemplateIdRoute
@@ -429,6 +449,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPlanRoute: AppPlanRoute,
   AppScanRoute: AppScanRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppCampaignsCampaignIdRoute: AppCampaignsCampaignIdRoute,
   AppCampaignsCreateRoute: AppCampaignsCreateRoute,
   AppExtractedContactIdRoute: AppExtractedContactIdRoute,
   AppTemplatesTemplateIdRoute: AppTemplatesTemplateIdRoute,

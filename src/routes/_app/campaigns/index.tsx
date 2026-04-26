@@ -75,7 +75,11 @@ function CampaignsPage() {
                      <Clock className="h-5 w-5 text-muted-foreground" />}
                   </div>
                   <div>
-                    <h4 className="font-bold text-foreground font-sans group-hover:text-[#4fb8b2] transition-colors">{campaign.name}</h4>
+                    <Link to="/campaigns/$campaignId" params={{ campaignId: campaign._id }}>
+                      <h4 className="font-bold text-foreground font-sans group-hover:text-[#4fb8b2] transition-colors cursor-pointer">
+                        {campaign.name}
+                      </h4>
+                    </Link>
                     <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground font-sans">
                       <span className="flex items-center gap-1"><Users className="h-3 w-3" /> {campaign.contacts.length} contacts</span>
                       <span className="flex items-center gap-1">

@@ -17,9 +17,9 @@ function EditTemplatePage() {
   const { data: template, isLoading: isFetching } = useTemplateByIdQuery(templateId)
   const updateMutation = useUpdateTemplateMutation()
 
-  const handleUpdate = async (values: TemplateFormValues) => {
+  const handleUpdate = async (data: FormData) => {
     try {
-      await updateMutation.mutateAsync({ id: templateId, updates: values })
+      await updateMutation.mutateAsync({ id: templateId, data })
       toast.success('Template updated successfully!')
       navigate({ to: '/templates' })
     } catch (error) {

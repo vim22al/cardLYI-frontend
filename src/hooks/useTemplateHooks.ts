@@ -24,7 +24,7 @@ export const useCreateTemplateMutation = () => {
   const queryClient = useQueryClient();
   const { token } = useAuthStore();
   return useMutation({
-    mutationFn: (template: Partial<Template>) => templatesApi.createTemplate(template, token!),
+    mutationFn: (data: FormData) => templatesApi.createTemplate(data, token!),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['templates'] });
     },
@@ -35,8 +35,8 @@ export const useUpdateTemplateMutation = () => {
   const queryClient = useQueryClient();
   const { token } = useAuthStore();
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: Partial<Template> }) =>
-      templatesApi.updateTemplate(id, updates, token!),
+    mutationFn: ({ id, data }: { id: string; data: FormData }) =>
+      templatesApi.updateTemplate(id, data, token!),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['templates'] });
       queryClient.invalidateQueries({ queryKey: ['template', data._id] });

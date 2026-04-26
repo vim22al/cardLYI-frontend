@@ -8,7 +8,12 @@ export interface Template {
   header?: string;
   body: string;
   isDefault: boolean;
-  attachments?: string[];
+  attachments?: {
+    filename: string;
+    size: number;
+    contentType: string;
+    _id: string;
+  }[];
   createdAt: string;
   updatedAt: string;
 }
@@ -34,23 +39,25 @@ export const templatesApi = {
     });
   },
 
-  createTemplate: async (template: Partial<Template>, token: string) => {
+  createTemplate: async (data: FormData, token: string) => {
     return fetcher<Template>('/templates', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
+        // Content-Type is set automatically by the browser for FormData
       },
-      body: JSON.stringify(template),
+      body: data,
     });
   },
-
-  updateTemplate: async (id: string, updates: Partial<Template>, token: string) => {
+  
+  updateTemplate: async (id: string, data: FormData, token: string) => {
     return fetcher<Template>(`/templates/${id}`, {
       method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${token}`,
+        // Content-Type is set automatically by the browser for FormData
       },
-      body: JSON.stringify(updates),
+      body: data,
     });
   },
 
