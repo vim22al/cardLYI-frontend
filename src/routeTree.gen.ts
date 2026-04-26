@@ -29,6 +29,11 @@ import { Route as AppExtractedContactIdRouteImport } from './routes/_app/extract
 import { Route as AppContactsContactIdRouteImport } from './routes/_app/contacts/$contactId'
 import { Route as AppCampaignsCreateRouteImport } from './routes/_app/campaigns/create'
 import { Route as AppCampaignsCampaignIdRouteImport } from './routes/_app/campaigns/$campaignId'
+import { Route as AppAdminDashboardRouteImport } from './routes/_app/admin/dashboard'
+import { Route as AppAdminUsersIndexRouteImport } from './routes/_app/admin/users/index'
+import { Route as AppAdminPlansIndexRouteImport } from './routes/_app/admin/plans/index'
+import { Route as AppAdminAnalyticsUsersRouteImport } from './routes/_app/admin/analytics/users'
+import { Route as AppAdminAnalyticsRevenueRouteImport } from './routes/_app/admin/analytics/revenue'
 
 const AppRoute = AppRouteImport.update({
   id: '/_app',
@@ -129,6 +134,32 @@ const AppCampaignsCampaignIdRoute = AppCampaignsCampaignIdRouteImport.update({
   path: '/campaigns/$campaignId',
   getParentRoute: () => AppRoute,
 } as any)
+const AppAdminDashboardRoute = AppAdminDashboardRouteImport.update({
+  id: '/admin/dashboard',
+  path: '/admin/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminUsersIndexRoute = AppAdminUsersIndexRouteImport.update({
+  id: '/admin/users/',
+  path: '/admin/users/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminPlansIndexRoute = AppAdminPlansIndexRouteImport.update({
+  id: '/admin/plans/',
+  path: '/admin/plans/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminAnalyticsUsersRoute = AppAdminAnalyticsUsersRouteImport.update({
+  id: '/admin/analytics/users',
+  path: '/admin/analytics/users',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAdminAnalyticsRevenueRoute =
+  AppAdminAnalyticsRevenueRouteImport.update({
+    id: '/admin/analytics/revenue',
+    path: '/admin/analytics/revenue',
+    getParentRoute: () => AppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -141,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/admin/dashboard': typeof AppAdminDashboardRoute
   '/campaigns/$campaignId': typeof AppCampaignsCampaignIdRoute
   '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
@@ -150,6 +182,10 @@ export interface FileRoutesByFullPath {
   '/campaigns/': typeof AppCampaignsIndexRoute
   '/contacts/': typeof AppContactsIndexRoute
   '/templates/': typeof AppTemplatesIndexRoute
+  '/admin/analytics/revenue': typeof AppAdminAnalyticsRevenueRoute
+  '/admin/analytics/users': typeof AppAdminAnalyticsUsersRoute
+  '/admin/plans/': typeof AppAdminPlansIndexRoute
+  '/admin/users/': typeof AppAdminUsersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -161,6 +197,7 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/admin/dashboard': typeof AppAdminDashboardRoute
   '/campaigns/$campaignId': typeof AppCampaignsCampaignIdRoute
   '/campaigns/create': typeof AppCampaignsCreateRoute
   '/contacts/$contactId': typeof AppContactsContactIdRoute
@@ -170,6 +207,10 @@ export interface FileRoutesByTo {
   '/campaigns': typeof AppCampaignsIndexRoute
   '/contacts': typeof AppContactsIndexRoute
   '/templates': typeof AppTemplatesIndexRoute
+  '/admin/analytics/revenue': typeof AppAdminAnalyticsRevenueRoute
+  '/admin/analytics/users': typeof AppAdminAnalyticsUsersRoute
+  '/admin/plans': typeof AppAdminPlansIndexRoute
+  '/admin/users': typeof AppAdminUsersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -184,6 +225,7 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/reset-password': typeof AuthResetPasswordRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/_app/admin/dashboard': typeof AppAdminDashboardRoute
   '/_app/campaigns/$campaignId': typeof AppCampaignsCampaignIdRoute
   '/_app/campaigns/create': typeof AppCampaignsCreateRoute
   '/_app/contacts/$contactId': typeof AppContactsContactIdRoute
@@ -193,6 +235,10 @@ export interface FileRoutesById {
   '/_app/campaigns/': typeof AppCampaignsIndexRoute
   '/_app/contacts/': typeof AppContactsIndexRoute
   '/_app/templates/': typeof AppTemplatesIndexRoute
+  '/_app/admin/analytics/revenue': typeof AppAdminAnalyticsRevenueRoute
+  '/_app/admin/analytics/users': typeof AppAdminAnalyticsUsersRoute
+  '/_app/admin/plans/': typeof AppAdminPlansIndexRoute
+  '/_app/admin/users/': typeof AppAdminUsersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -207,6 +253,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/admin/dashboard'
     | '/campaigns/$campaignId'
     | '/campaigns/create'
     | '/contacts/$contactId'
@@ -216,6 +263,10 @@ export interface FileRouteTypes {
     | '/campaigns/'
     | '/contacts/'
     | '/templates/'
+    | '/admin/analytics/revenue'
+    | '/admin/analytics/users'
+    | '/admin/plans/'
+    | '/admin/users/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -227,6 +278,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/admin/dashboard'
     | '/campaigns/$campaignId'
     | '/campaigns/create'
     | '/contacts/$contactId'
@@ -236,6 +288,10 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/contacts'
     | '/templates'
+    | '/admin/analytics/revenue'
+    | '/admin/analytics/users'
+    | '/admin/plans'
+    | '/admin/users'
   id:
     | '__root__'
     | '/'
@@ -249,6 +305,7 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/reset-password'
     | '/auth/signup'
+    | '/_app/admin/dashboard'
     | '/_app/campaigns/$campaignId'
     | '/_app/campaigns/create'
     | '/_app/contacts/$contactId'
@@ -258,6 +315,10 @@ export interface FileRouteTypes {
     | '/_app/campaigns/'
     | '/_app/contacts/'
     | '/_app/templates/'
+    | '/_app/admin/analytics/revenue'
+    | '/_app/admin/analytics/users'
+    | '/_app/admin/plans/'
+    | '/_app/admin/users/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -411,6 +472,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppCampaignsCampaignIdRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/admin/dashboard': {
+      id: '/_app/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AppAdminDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admin/users/': {
+      id: '/_app/admin/users/'
+      path: '/admin/users'
+      fullPath: '/admin/users/'
+      preLoaderRoute: typeof AppAdminUsersIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admin/plans/': {
+      id: '/_app/admin/plans/'
+      path: '/admin/plans'
+      fullPath: '/admin/plans/'
+      preLoaderRoute: typeof AppAdminPlansIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admin/analytics/users': {
+      id: '/_app/admin/analytics/users'
+      path: '/admin/analytics/users'
+      fullPath: '/admin/analytics/users'
+      preLoaderRoute: typeof AppAdminAnalyticsUsersRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/admin/analytics/revenue': {
+      id: '/_app/admin/analytics/revenue'
+      path: '/admin/analytics/revenue'
+      fullPath: '/admin/analytics/revenue'
+      preLoaderRoute: typeof AppAdminAnalyticsRevenueRouteImport
+      parentRoute: typeof AppRoute
+    }
   }
 }
 
@@ -434,6 +530,7 @@ interface AppRouteChildren {
   AppPlanRoute: typeof AppPlanRoute
   AppScanRoute: typeof AppScanRoute
   AppSettingsRoute: typeof AppSettingsRoute
+  AppAdminDashboardRoute: typeof AppAdminDashboardRoute
   AppCampaignsCampaignIdRoute: typeof AppCampaignsCampaignIdRoute
   AppCampaignsCreateRoute: typeof AppCampaignsCreateRoute
   AppExtractedContactIdRoute: typeof AppExtractedContactIdRoute
@@ -441,6 +538,10 @@ interface AppRouteChildren {
   AppTemplatesCreateRoute: typeof AppTemplatesCreateRoute
   AppCampaignsIndexRoute: typeof AppCampaignsIndexRoute
   AppTemplatesIndexRoute: typeof AppTemplatesIndexRoute
+  AppAdminAnalyticsRevenueRoute: typeof AppAdminAnalyticsRevenueRoute
+  AppAdminAnalyticsUsersRoute: typeof AppAdminAnalyticsUsersRoute
+  AppAdminPlansIndexRoute: typeof AppAdminPlansIndexRoute
+  AppAdminUsersIndexRoute: typeof AppAdminUsersIndexRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
@@ -449,6 +550,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppPlanRoute: AppPlanRoute,
   AppScanRoute: AppScanRoute,
   AppSettingsRoute: AppSettingsRoute,
+  AppAdminDashboardRoute: AppAdminDashboardRoute,
   AppCampaignsCampaignIdRoute: AppCampaignsCampaignIdRoute,
   AppCampaignsCreateRoute: AppCampaignsCreateRoute,
   AppExtractedContactIdRoute: AppExtractedContactIdRoute,
@@ -456,6 +558,10 @@ const AppRouteChildren: AppRouteChildren = {
   AppTemplatesCreateRoute: AppTemplatesCreateRoute,
   AppCampaignsIndexRoute: AppCampaignsIndexRoute,
   AppTemplatesIndexRoute: AppTemplatesIndexRoute,
+  AppAdminAnalyticsRevenueRoute: AppAdminAnalyticsRevenueRoute,
+  AppAdminAnalyticsUsersRoute: AppAdminAnalyticsUsersRoute,
+  AppAdminPlansIndexRoute: AppAdminPlansIndexRoute,
+  AppAdminUsersIndexRoute: AppAdminUsersIndexRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)

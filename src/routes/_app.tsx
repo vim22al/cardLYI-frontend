@@ -13,6 +13,10 @@ import {
   LogOut,
   Bell,
   PanelLeft,
+  Shield,
+  UsersRound,
+  CreditCard,
+  BarChart,
 } from 'lucide-react'
 import { ModeToggle } from '@/components/mode-toggle'
 import { useEffect } from 'react'
@@ -83,6 +87,32 @@ const navItems = [
   },
 ]
 
+const adminNavItems = [
+  {
+    title: 'Admin Dashboard',
+    icon: Shield,
+    url: '/admin/dashboard',
+  },
+  {
+    title: 'Users Table',
+    icon: UsersRound,
+    url: '/admin/users',
+  },
+  {
+    title: 'Plans',
+    icon: CreditCard,
+    url: '/admin/plans',
+  },
+  {
+    title: 'Analytics',
+    icon: BarChart,
+    items: [
+      { title: 'User Analytics', url: '/admin/analytics/users' },
+      { title: 'Revenue Analytics', url: '/admin/analytics/revenue' },
+    ],
+  },
+]
+
 const footerItems = [
   {
     title: 'Settings',
@@ -94,6 +124,14 @@ const footerItems = [
     icon: Sparkles,
     url: '/plan',
     highlight: true,
+  },
+]
+
+const adminFooterItems = [
+  {
+    title: 'Settings',
+    icon: Settings,
+    url: '/settings',
   },
 ]
 
@@ -126,6 +164,9 @@ function AppLayout() {
     navigate({ to: '/auth/login' })
   }
 
+  const currentNavItems = user?.userType === 'admin' ? adminNavItems : navItems
+  const currentFooterItems = user?.userType === 'admin' ? adminFooterItems : footerItems
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full bg-background transition-colors duration-300">
@@ -141,10 +182,12 @@ function AppLayout() {
 
           <SidebarContent className="p-4">
             <SidebarGroup>
-              <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Main Menu</SidebarGroupLabel>
+              <SidebarGroupLabel className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                {user?.userType === 'admin' ? 'Admin Menu' : 'Main Menu'}
+              </SidebarGroupLabel>
               <SidebarGroupContent>
                 <SidebarMenu>
-                  {navItems.map((item) => (
+                  {currentNavItems.map((item) => (
                     <SidebarMenuItem key={item.title}>
                       {item.items ? (
                         <Collapsible defaultOpen={item.items.some(sub => location.pathname === sub.url)}>
@@ -160,13 +203,12 @@ function AppLayout() {
                               {item.items.map((sub) => (
                                 <SidebarMenuSubItem key={sub.title}>
                                   <SidebarMenuSubButton asChild isActive={location.pathname === sub.url}>
-                                    <Link 
-                                      to={sub.url} 
-                                      className={`font-sans text-sm transition-colors ${
-                                        location.pathname === sub.url 
-                                        ? 'text-[#4fb8b2] font-semibold' 
+                                    <Link
+                                      to={sub.url}
+                                      className={`font-sans text-sm transition-colors ${location.pathname === sub.url
+                                        ? 'text-[#4fb8b2] font-semibold'
                                         : 'text-muted-foreground hover:text-[#4fb8b2]'
-                                      }`}
+                                        }`}
                                     >
                                       {sub.title}
                                     </Link>
@@ -194,10 +236,10 @@ function AppLayout() {
           </SidebarContent>
 
           <SidebarFooter className="p-4 border-t border-border space-y-2">
-            {footerItems.map((item) => (
-              <SidebarMenuButton 
-                key={item.title} 
-                asChild 
+            {currentFooterItems.map((item) => (
+              <SidebarMenuButton
+                key={item.title}
+                asChild
                 isActive={location.pathname === item.url}
                 className={`transition-colors ${item.highlight ? 'bg-[#4fb8b2]/10 text-[#4fb8b2] hover:bg-[#4fb8b2]/20' : 'hover:bg-accent'}`}
               >
@@ -207,7 +249,7 @@ function AppLayout() {
                 </Link>
               </SidebarMenuButton>
             ))}
-            
+
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex items-center gap-3 w-full p-2 rounded-lg hover:bg-accent transition-colors mt-4 text-left group">
@@ -250,8 +292,8 @@ function AppLayout() {
               </SidebarTrigger>
               <div className="relative hidden md:flex items-center">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input 
-                  placeholder="Search contacts..." 
+                <Input
+                  placeholder="Search contacts..."
                   className="pl-10 h-9 w-[300px] bg-accent/50 border-none focus-visible:ring-[#4fb8b2] transition-all font-sans"
                 />
               </div>

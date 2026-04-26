@@ -28,13 +28,17 @@ export const Route = createFileRoute('/auth/login')({
 
 function RouteComponent() {
   const navigate = useNavigate()
-  const { isAuthenticated, _hasHydrated } = useAuthStore()
+  const { user, isAuthenticated, _hasHydrated } = useAuthStore()
   const loginMutation = useLoginMutation()
   const googleLoginMutation = useGoogleLoginMutation()
 
   const googleLogin = useGoogleLogin({
-    onSuccess: (tokenResponse) => {
-      googleLoginMutation.mutate({ accessToken: tokenResponse.access_token })
+    onSuccess: async (tokenResponse) => {
+      try {
+        await googleLoginMutation.mutateAsync({ accessToken: tokenResponse.access_token })
+        const stateUser = useAuthStore.getState().user;
+        navigate({ to: stateUser?.userType === 'admin' ? '/admin/dashboard' : '/dashboard' })
+      } catch (err) {}
     },
     onError: () => {
       // Error handled by hook
@@ -57,15 +61,16 @@ function RouteComponent() {
   const isSubmitting = formIsSubmitting || loginMutation.isPending || googleLoginMutation.isPending
 
   useEffect(() => {
-    if (_hasHydrated && isAuthenticated) {
-      navigate({ to: '/dashboard' })
+    if (_hasHydrated && isAuthenticated && user) {
+      navigate({ to: user.userType === 'admin' ? '/admin/dashboard' : '/dashboard' })
     }
-  }, [_hasHydrated, isAuthenticated, navigate])
+  }, [_hasHydrated, isAuthenticated, user, navigate])
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
       await loginMutation.mutateAsync(data)
-      navigate({ to: '/dashboard' })
+      const stateUser = useAuthStore.getState().user;
+      navigate({ to: stateUser?.userType === 'admin' ? '/admin/dashboard' : '/dashboard' })
     } catch (err: any) {
       // Error handled by hook
     }

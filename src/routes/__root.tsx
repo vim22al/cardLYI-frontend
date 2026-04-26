@@ -7,7 +7,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google'
 import { Toaster } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { ThemeProvider } from '@/components/theme-provider'
-// import { useAuthStore } from '@/stores/useAuthStore'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 import '@/styles.css'
 
@@ -31,25 +31,25 @@ export const Route = createRootRoute({
 })
 
 function AuthBootstrap({ children }: { children: React.ReactNode }) {
-  // const fetchUser = useAuthStore((s: { fetchUser: any }) => s.fetchUser)
-  // const isLoading = useAuthStore((s: { isLoading: any }) => s.isLoading)
+  const fetchUser = useAuthStore((s: { fetchUser: any }) => s.fetchUser)
+  const isLoading = useAuthStore((s: { isLoading: any }) => s.isLoading)
   const hasBooted = React.useRef(false)
 
-  // React.useEffect(() => {
-  //   if (!hasBooted.current) {
-  //     hasBooted.current = true
-  //     fetchUser()
-  //   }
-  // }, [fetchUser])
+  React.useEffect(() => {
+    if (!hasBooted.current) {
+      hasBooted.current = true
+      fetchUser()
+    }
+  }, [fetchUser])
 
-  // if (isLoading) {
-  //   return (
-  //     <div className="flex min-h-screen flex-col items-center justify-center gap-3">
-  //       <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
-  //       <p className="text-sm text-muted-foreground">Checking your session…</p>
-  //     </div>
-  //   )
-  // }
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3">
+        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+        <p className="text-sm text-muted-foreground">Checking your session…</p>
+      </div>
+    )
+  }
 
   return <>{children}</>
 }
