@@ -118,6 +118,7 @@ const footerItems = [
     title: 'Settings',
     icon: Settings,
     url: '/settings',
+    highlight: false,
   },
   {
     title: 'Upgrade Plan',
@@ -132,6 +133,7 @@ const adminFooterItems = [
     title: 'Settings',
     icon: Settings,
     url: '/settings',
+    highlight: false,
   },
 ]
 
